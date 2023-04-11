@@ -64,7 +64,8 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
-          run: ls -R
+        
+      - run: ls -R
 
   deploy:
     permissions:
