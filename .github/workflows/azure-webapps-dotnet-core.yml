@@ -75,9 +75,10 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact
+        uses: actions/download-artifact@v3
         with:
           name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
