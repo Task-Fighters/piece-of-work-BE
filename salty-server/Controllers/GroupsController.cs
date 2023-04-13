@@ -32,4 +32,20 @@ public class GroupsController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(newGroup);
     }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<List<User>>> GetGroupById(int id)
+    {
+        var checkGroup = _context.Groups.FirstOrDefault(group => group.Id == id);
+
+        if (checkGroup == null)
+        {
+            return NotFound();
+        }
+        
+        var group = _context.User.Where(user => user.GroupId == id).ToList();
+
+        return Ok(group);
+    }
 }
