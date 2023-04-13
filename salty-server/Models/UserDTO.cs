@@ -1,11 +1,7 @@
 namespace salty_server.Models;
 
-public class User
+public class UserDTO
 {
-    public int Id { get; set; }
-    
-    public string? GoogleId { get; set; }
-    
     public string Email { get; set; }
     
     public string FullName { get; set; }
@@ -18,5 +14,5 @@ public class User
     
     public string Status { get; set; }
     
-    public int GroupId{ get; set; }
+    public int GroupId { get; set; }
 }
