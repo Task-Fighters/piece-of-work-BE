@@ -98,30 +98,13 @@ public class UserController : ControllerBase
     }
 
 
-    // GET: User/Edit/5
-    [HttpPut("{id}")]
-    public async Task<ActionResult<User>> Edit(int? id)
-    {
-        if (id == null || _context.User == null)
-        {
-            return NotFound();
-        }
-
-        var user = await _context.User.FindAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-        return user;
-    }
-
     // GET: User/Delete/5
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-         var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Id == id);
+        var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Id == id);
 
-        if (UserFound == null )
+        if (UserFound == null)
         {
             return NotFound();
         }
