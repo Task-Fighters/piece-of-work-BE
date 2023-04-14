@@ -24,7 +24,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<User>>> Index()
     {
-        return _context.User != null ? 
+        return _context.User != null ?
             (await _context.User.ToListAsync()) :
             Problem("Entity set 'DbContext.User'  is null.");
     }
@@ -48,7 +48,7 @@ public class UserController : ControllerBase
         return user;
     }
 
-    
+
     [HttpPost]
     public async Task<ActionResult<User>> Create([Bind("GoogleId,Email,FullName,Role,Location,Image,Status")] UserDTO user)
     {
@@ -59,7 +59,7 @@ public class UserController : ControllerBase
         {
             return Conflict();
         }
-        
+
         var newUser = new User
         {
             GoogleId = "test",
@@ -71,11 +71,32 @@ public class UserController : ControllerBase
             Status = user.Status,
             GroupId = user.GroupId
         };
-       
+
         _context.Add(newUser);
         await _context.SaveChangesAsync();
         return Ok(newUser);
     }
+
+    [HttpPut("/login")]
+    public async Task<ActionResult<User>> Login([FromBody] LoginDto loginDto)
+    {
+        var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
+
+        if (UserFound == null)
+        {
+            return NotFound();
+        }
+
+        UserFound.Email = loginDto.Email;
+        UserFound.GoogleId = loginDto.GoogleId;
+        UserFound.Image = loginDto.Image;
+
+        _context.Update(UserFound);
+        await _context.SaveChangesAsync();
+        return Ok(UserFound);
+
+    }
+
 
     // GET: User/Edit/5
     [HttpPut("{id}")]
@@ -93,7 +114,7 @@ public class UserController : ControllerBase
         }
         return user;
     }
-    
+
     // GET: User/Delete/5
     [HttpDelete]
     public async Task<ActionResult<User>> Delete(int? id)
