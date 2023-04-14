@@ -7,6 +7,6 @@ public class LoginDto
 
     public string FullName { get; set; }
 
-    public string Image { get; set; }
+    public string ImageUrl { get; set; }
 
 }

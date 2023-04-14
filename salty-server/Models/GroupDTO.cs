@@ -1,6 +1,6 @@
 namespace salty_server.Models;
 
-public class GroupDTO
+public class GroupDto
 {
     public string Name { get; set; }
 }

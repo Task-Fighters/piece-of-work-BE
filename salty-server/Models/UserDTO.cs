@@ -1,6 +1,6 @@
 namespace salty_server.Models;
 
-public class UserDTO
+public class UserDto
 {
     public string Email { get; set; }
     
@@ -9,8 +9,6 @@ public class UserDTO
     public string Role { get; set; }
     
     public string Location { get; set; }
-    
-    public string Image { get; set; }
     
     public string Status { get; set; }
     

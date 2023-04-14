@@ -21,11 +21,11 @@ public class GroupsController : ControllerBase
         _context = context;
     }
     [HttpPost]
-    public async Task<ActionResult<Group>> Create(GroupDTO group)
+    public async Task<ActionResult<Group>> Create(GroupDto groupDto)
     {
         var newGroup = new Group
         {
-            Name = group.Name
+            Name = groupDto.Name
         };
         
         _context.Add(newGroup);

@@ -50,10 +50,10 @@ public class UserController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult<User>> Create([Bind("GoogleId,Email,FullName,Role,Location,Image,Status")] UserDTO user)
+    public async Task<ActionResult<User>> Create(UserDto userDto)
     {
         var checkUser = await _context.User
-            .FirstOrDefaultAsync(m => m.Email == user.Email);
+            .FirstOrDefaultAsync(m => m.Email == userDto.Email);
 
         if (checkUser != null)
         {
@@ -62,23 +62,22 @@ public class UserController : ControllerBase
 
         var newUser = new User
         {
-            GoogleId = "test",
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-            Location = user.Location,
-            Image = user.Image,
-            Status = user.Status,
-            GroupId = user.GroupId
+            Email = userDto.Email,
+            FullName = userDto.FullName,
+            Role = userDto.Role,
+            Location = userDto.Location,
+            Status = userDto.Status,
+            GroupId = userDto.GroupId
         };
 
         _context.Add(newUser);
         await _context.SaveChangesAsync();
         return Ok(newUser);
+        // return Ok(userDto);
     }
 
     [HttpPut("/login")]
-    public async Task<ActionResult<User>> Login([FromBody] LoginDto loginDto)
+    public async Task<ActionResult<User>> Login(LoginDto loginDto)
     {
         var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
 
@@ -89,11 +88,12 @@ public class UserController : ControllerBase
 
         UserFound.Email = loginDto.Email;
         UserFound.GoogleId = loginDto.GoogleId;
-        UserFound.Image = loginDto.Image;
+        UserFound.ImageUrl = loginDto.ImageUrl;
 
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
         return Ok(UserFound);
+        // return Ok(loginDto);
 
     }
 
@@ -116,24 +116,19 @@ public class UserController : ControllerBase
     }
 
     // GET: User/Delete/5
-    [HttpDelete]
-    public async Task<ActionResult<User>> Delete(int? id)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
     {
-        if (id == null || _context.User == null)
+         var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Id == id);
+
+        if (UserFound == null )
         {
             return NotFound();
         }
 
-        var user = await _context.User
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        _context.User.Remove(user);
+        _context.User.Remove(UserFound);
         await _context.SaveChangesAsync();
 
-        return Ok(user);
+        return NoContent();
     }
 }
