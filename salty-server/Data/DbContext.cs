@@ -12,8 +12,29 @@ using salty_server.Models;
         {
         }
 
-        public DbSet<User> User { get; set; } = default!;
-        public DbSet<Assignment> Assignments { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
         public DbSet<Group> Groups { get; set; } = default!;
+        public DbSet<Assignment> Assignments { get; set; } = default!;
+
+        // protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<Recipe>()
+        //     .HasMany(p => p.Users)
+        //     .WithMany(p => p.Recipes)
+        //     `.UsingEntity<RecipeUser>(
+        //         j => j
+        //             .HasOne(pt => pt.User)
+        //             .WithMany(t => t.RecipeUsers)
+        //             .HasForeignKey(pt => pt.UserId),
+        //         j => j
+        //             .HasOne(pt => pt.Recipe)
+        //             .WithMany(p => p.RecipeUsers)
+        //             .HasForeignKey(pt => pt.RecipeId),
+        //         j =>
+        //         {
+        //             j.HasKey(t => new { t.UserId, t.RecipeId });
+        //         });
+        // }
 
     }
+

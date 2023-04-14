@@ -24,8 +24,8 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<User>>> Index()
     {
-        return _context.User != null ?
-            (await _context.User.ToListAsync()) :
+        return _context.Users != null ?
+            (await _context.Users.ToListAsync()) :
             Problem("Entity set 'DbContext.User'  is null.");
     }
 
@@ -33,12 +33,12 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> Details(int? id)
     {
-        if (id == null || _context.User == null)
+        if (id == null || _context.Users == null)
         {
             return NotFound();
         }
 
-        var user = await _context.User
+        var user = await _context.Users
             .FirstOrDefaultAsync(m => m.Id == id);
         if (user == null)
         {
@@ -52,7 +52,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<User>> Create(UserDto userDto)
     {
-        var checkUser = await _context.User
+        var checkUser = await _context.Users
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
 
         if (checkUser != null)
@@ -79,7 +79,7 @@ public class UserController : ControllerBase
     [HttpPut("/login")]
     public async Task<ActionResult<User>> Login(LoginDto loginDto)
     {
-        var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
+        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
 
         if (UserFound == null)
         {
@@ -102,14 +102,14 @@ public class UserController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var UserFound = await _context.User.FirstOrDefaultAsync(user => user.Id == id);
+        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
         if (UserFound == null)
         {
             return NotFound();
         }
 
-        _context.User.Remove(UserFound);
+        _context.Users.Remove(UserFound);
         await _context.SaveChangesAsync();
 
         return NoContent();
