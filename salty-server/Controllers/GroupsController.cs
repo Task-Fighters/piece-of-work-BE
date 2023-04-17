@@ -35,15 +35,23 @@ public class GroupsController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult<List<User>>> GetGroupById(int id)
+    public async Task<ActionResult<GroupResponseDto>> GetGroupById(int id)
     {
-        var checkGroup = _context.Groups.FirstOrDefault(group => group.Id == id);
+        var checkGroup = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
         if (checkGroup == null)
         {
             return NotFound();
         }
+        var usersId = _context.GroupUser.Where(g => g.GroupsId == id).Select(u => u.UsersId).ToList();
         
-        return Ok(checkGroup);
+        var response = new GroupResponseDto {
+            Id = checkGroup.Id,
+            Name = checkGroup.Name,
+            UsersId = usersId,
+            AssignmentsId = new List<int>()
+        };
+
+        return Ok(response);
     }
 }
