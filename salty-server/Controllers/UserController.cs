@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -55,24 +56,44 @@ public class UserController : ControllerBase
         var checkUser = await _context.Users
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
 
+        var checkGroup = await _context.Groups.FirstOrDefaultAsync(group => group.Id == userDto.GroupId);
+        
         if (checkUser != null)
         {
             return Conflict();
         }
 
-        var newUser = new User
+        User newUser;
+        
+        if (checkGroup != null)
         {
-            Email = userDto.Email,
-            FullName = userDto.FullName,
-            Role = userDto.Role,
-            Location = userDto.Location,
-            Status = userDto.Status
-        };
-
+            ICollection<Group> groups =  new Collection<Group>();
+            groups.Add(checkGroup);
+            newUser = new User
+            {
+                Email = userDto.Email,
+                FullName = userDto.FullName,
+                Role = userDto.Role,
+                Location = userDto.Location,
+                Status = userDto.Status,
+                Groups = groups
+            };
+        }
+        else
+        {
+            newUser = new User
+            {
+                Email = userDto.Email,
+                FullName = userDto.FullName,
+                Role = userDto.Role,
+                Location = userDto.Location,
+                Status = userDto.Status
+            }; 
+        }
+        
         _context.Add(newUser);
         await _context.SaveChangesAsync();
         return Ok(newUser);
-        // return Ok(userDto);
     }
 
     [HttpPut("/login")]
@@ -93,9 +114,9 @@ public class UserController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(UserFound);
         // return Ok(loginDto);
-
     }
 
+   
 
     // GET: User/Delete/5
     [HttpDelete("{id}")]
