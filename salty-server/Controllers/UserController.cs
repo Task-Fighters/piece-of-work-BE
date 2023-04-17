@@ -57,18 +57,20 @@ public class UserController : ControllerBase
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
 
         var checkGroup = await _context.Groups.FirstOrDefaultAsync(group => group.Id == userDto.GroupId);
-        
+
         if (checkUser != null)
         {
             return Conflict();
         }
 
         User newUser;
-        
+        UserResponseDto resDto;
+
         if (checkGroup != null)
         {
-            ICollection<Group> groups =  new Collection<Group>();
+            ICollection<Group> groups = new Collection<Group>();
             groups.Add(checkGroup);
+            var groupsId = groups.Select(r => r.Id).ToList();
             newUser = new User
             {
                 Email = userDto.Email,
@@ -77,6 +79,16 @@ public class UserController : ControllerBase
                 Location = userDto.Location,
                 Status = userDto.Status,
                 Groups = groups
+            };
+
+            resDto = new UserResponseDto
+            {
+                Email = userDto.Email,
+                FullName = userDto.FullName,
+                Role = userDto.Role,
+                Location = userDto.Location,
+                Status = userDto.Status,
+                GroupsId = groupsId
             };
         }
         else
@@ -88,12 +100,22 @@ public class UserController : ControllerBase
                 Role = userDto.Role,
                 Location = userDto.Location,
                 Status = userDto.Status
-            }; 
+            };
+
+            resDto = new UserResponseDto
+            {
+                Email = userDto.Email,
+                FullName = userDto.FullName,
+                Role = userDto.Role,
+                Location = userDto.Location,
+                Status = userDto.Status,
+                GroupsId = new List<int>()
+            };
         }
-        
+
         _context.Add(newUser);
         await _context.SaveChangesAsync();
-        return Ok(newUser);
+        return Ok(resDto);
     }
 
     [HttpPut("/login")]
@@ -116,7 +138,7 @@ public class UserController : ControllerBase
         // return Ok(loginDto);
     }
 
-   
+
 
     // GET: User/Delete/5
     [HttpDelete("{id}")]
