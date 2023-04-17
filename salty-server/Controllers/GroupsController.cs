@@ -20,9 +20,16 @@ public class GroupsController : ControllerBase
     {
         _context = context;
     }
+
     [HttpPost]
     public async Task<ActionResult<Group>> Create(GroupDto groupDto)
     {
+        var groupCheck = await _context.Groups.FirstOrDefaultAsync(g=> g.Name == groupDto.Name);
+
+        if(groupCheck != null){
+            return Conflict();
+        }
+        
         var newGroup = new Group
         {
             Name = groupDto.Name
@@ -33,6 +40,29 @@ public class GroupsController : ControllerBase
         return Ok(newGroup);
     }
 
+    [HttpGet]
+    public async Task<ActionResult<List<GroupResponseDto>>> GetAllGroups()
+    {
+        var allGroups = await _context.Groups.ToListAsync();
+
+        if(allGroups == null)
+        {
+            return NotFound();
+        }
+
+        var response = allGroups.Select(grp => {
+            var usersId = _context.GroupUser.Where(g => g.GroupsId == grp.Id).Select(u => u.UsersId).ToList();
+            return new GroupResponseDto {
+                Id = grp.Id,
+                Name = grp.Name,
+                UsersId = usersId,
+                AssignmentsId = new List<int>()
+            };
+        });
+
+        return Ok(response);
+
+    }
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult<GroupResponseDto>> GetGroupById(int id)
