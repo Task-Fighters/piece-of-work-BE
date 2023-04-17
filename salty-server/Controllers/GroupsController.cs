@@ -44,8 +44,6 @@ public class GroupsController : ControllerBase
             return NotFound();
         }
         
-        var group = _context.User.Where(user => user.GroupId == id).ToList();
-
-        return Ok(group);
+        return Ok(checkGroup);
     }
 }

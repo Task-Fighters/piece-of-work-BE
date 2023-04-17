@@ -21,6 +21,21 @@ namespace salty_server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("GroupUser", b =>
+                {
+                    b.Property<int>("GroupsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("GroupUser");
+                });
+
             modelBuilder.Entity("salty_server.Models.Assignment", b =>
                 {
                     b.Property<int>("Id")
@@ -80,17 +95,12 @@ namespace salty_server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GoogleId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
@@ -107,9 +117,22 @@ namespace salty_server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.ToTable("Users");
+                });
 
-                    b.ToTable("User");
+            modelBuilder.Entity("GroupUser", b =>
+                {
+                    b.HasOne("salty_server.Models.Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("salty_server.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("salty_server.Models.Assignment", b =>
@@ -123,20 +146,9 @@ namespace salty_server.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("salty_server.Models.User", b =>
-                {
-                    b.HasOne("salty_server.Models.Group", null)
-                        .WithMany("Users")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("salty_server.Models.Group", b =>
                 {
                     b.Navigation("Assignments");
-
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

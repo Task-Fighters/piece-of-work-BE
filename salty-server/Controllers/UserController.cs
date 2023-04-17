@@ -66,8 +66,7 @@ public class UserController : ControllerBase
             FullName = userDto.FullName,
             Role = userDto.Role,
             Location = userDto.Location,
-            Status = userDto.Status,
-            GroupId = userDto.GroupId
+            Status = userDto.Status
         };
 
         _context.Add(newUser);
