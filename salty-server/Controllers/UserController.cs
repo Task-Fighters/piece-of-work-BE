@@ -23,11 +23,25 @@ public class UserController : ControllerBase
 
     // GET: User
     [HttpGet]
-    public async Task<ActionResult<List<User>>> Index()
+    public async Task<ActionResult<List<UserResponseDto>>> Index()
     {
-        return _context.Users != null ?
-            (await _context.Users.ToListAsync()) :
-            Problem("Entity set 'DbContext.User'  is null.");
+    
+        var users = await _context.Users.ToListAsync();
+        var userDtoList = users.Select(user =>{ 
+            var groupsId = _context.GroupUser.Where(g => g.UsersId == user.Id).Select(g => g.GroupsId).ToList();
+            
+            return new UserResponseDto {
+            Id = user.Id,
+            Email = user.Email,
+            FullName = user.FullName,
+            Role = user.Role,
+            Location = user.Location,
+            Status = user.Status,
+            GroupsId = groupsId
+            };
+        });
+
+        return Ok(userDtoList);
     }
 
     // GET: User/Details/5
