@@ -11060,19 +11060,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/salt-dev/.nuget/packages/": {}
+    "/Users/tanlui/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/salty-server.csproj",
+      "projectUniqueName": "/Users/tanlui/projects/project-salty/project-salty-backend/salty-server/salty-server.csproj",
       "projectName": "salty-server",
-      "projectPath": "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/salty-server.csproj",
-      "packagesPath": "/Users/salt-dev/.nuget/packages/",
-      "outputPath": "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/obj/",
+      "projectPath": "/Users/tanlui/projects/project-salty/project-salty-backend/salty-server/salty-server.csproj",
+      "packagesPath": "/Users/tanlui/.nuget/packages/",
+      "outputPath": "/Users/tanlui/projects/project-salty/project-salty-backend/salty-server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/salt-dev/.nuget/NuGet/NuGet.Config"
+        "/Users/tanlui/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -11148,7 +11148,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
       }
     }
   }

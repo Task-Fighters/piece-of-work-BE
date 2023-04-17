@@ -13,8 +13,7 @@ public class Group
     public string Name { get; set; }
     
     public virtual ICollection<User>? Users { get; set; }
-    
+    public List<GroupUser> GroupUsers { get; set; }
     public List<Assignment>? Assignments { get; set; }
     
-    public List<GroupUser> GroupUsers { get; set; }
 }
