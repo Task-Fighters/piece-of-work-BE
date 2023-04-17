@@ -32,7 +32,7 @@ public class UserController : ControllerBase
 
     // GET: User/Details/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<User>> Details(int? id)
+    public async Task<ActionResult<UserResponseDto>> Details(int? id)
     {
         if (id == null || _context.Users == null)
         {
@@ -46,7 +46,22 @@ public class UserController : ControllerBase
             return NotFound();
         }
 
-        return user;
+        var groupsId = _context.GroupUser.Where(g => g.UsersId == id).Select(g => g.GroupsId).ToList();
+        
+        var userRes = new UserResponseDto()
+        {
+            Id = user.Id,
+            GoogleId = user.GoogleId,
+            Email = user.Email,
+            FullName = user.FullName,
+            Role = user.Role,
+            Location = user.Location,
+            Status = user.Status,
+            ImageUrl = user.ImageUrl,
+            GroupsId = groupsId
+        };
+
+        return userRes;
     }
 
 
@@ -115,6 +130,7 @@ public class UserController : ControllerBase
 
         _context.Add(newUser);
         await _context.SaveChangesAsync();
+        resDto.Id = newUser.Id;
         return Ok(resDto);
     }
 

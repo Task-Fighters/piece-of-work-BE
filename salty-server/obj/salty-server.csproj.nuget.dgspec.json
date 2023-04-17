@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/camille/salt/ProjectSalty/Backend/project-salty-backend/salty-server/salty-server.csproj": {}
+    "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/salty-server.csproj": {}
   },
   "projects": {
-    "/home/camille/salt/ProjectSalty/Backend/project-salty-backend/salty-server/salty-server.csproj": {
+    "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/salty-server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/camille/salt/ProjectSalty/Backend/project-salty-backend/salty-server/salty-server.csproj",
+        "projectUniqueName": "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/salty-server.csproj",
         "projectName": "salty-server",
-        "projectPath": "/home/camille/salt/ProjectSalty/Backend/project-salty-backend/salty-server/salty-server.csproj",
-        "packagesPath": "/home/camille/.nuget/packages/",
-        "outputPath": "/home/camille/salt/ProjectSalty/Backend/project-salty-backend/salty-server/obj/",
+        "projectPath": "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/salty-server.csproj",
+        "packagesPath": "/Users/salt-dev/.nuget/packages/",
+        "outputPath": "/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/camille/.nuget/NuGet/NuGet.Config"
+          "/Users/salt-dev/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -90,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace salty_server.Models;
 
 public class User
@@ -5,6 +7,7 @@ public class User
     public User(){
         Groups = new HashSet<Group>();
     }
+    [Key]
     public int Id { get; set; }
     
     public string? GoogleId { get; set; }
@@ -22,5 +25,7 @@ public class User
     public string Status { get; set; }
     
     public virtual ICollection<Group>? Groups { get; set; }
+    
+    public List<GroupUser> GroupUsers { get; set; }
 
 }
