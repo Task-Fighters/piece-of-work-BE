@@ -13,7 +13,7 @@ namespace salty_server.Controllers;
 [Route("[controller]")]
 public class GroupsController : ControllerBase
 {
-    
+
     private readonly DbContext _context;
 
     public GroupsController(DbContext context)
@@ -21,20 +21,28 @@ public class GroupsController : ControllerBase
         _context = context;
     }
 
+    public class UserDetail
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    };
+
+
     [HttpPost]
     public async Task<ActionResult<Group>> Create(GroupDto groupDto)
     {
-        var groupCheck = await _context.Groups.FirstOrDefaultAsync(g=> g.Name == groupDto.Name);
+        var groupCheck = await _context.Groups.FirstOrDefaultAsync(g => g.Name == groupDto.Name);
 
-        if(groupCheck != null){
+        if (groupCheck != null)
+        {
             return Conflict();
         }
-        
+
         var newGroup = new Group
         {
             Name = groupDto.Name
         };
-        
+
         _context.Add(newGroup);
         await _context.SaveChangesAsync();
         return Ok(newGroup);
@@ -45,14 +53,16 @@ public class GroupsController : ControllerBase
     {
         var allGroups = await _context.Groups.ToListAsync();
 
-        if(allGroups == null)
+        if (allGroups == null)
         {
             return NotFound();
         }
 
-        var response = allGroups.Select(grp => {
+        var response = allGroups.Select(grp =>
+        {
             var usersId = _context.GroupUser.Where(g => g.GroupsId == grp.Id).Select(u => u.UsersId).ToList();
-            return new GroupResponseDto {
+            return new GroupResponseDto
+            {
                 Id = grp.Id,
                 Name = grp.Name,
                 UsersId = usersId,
@@ -73,9 +83,13 @@ public class GroupsController : ControllerBase
         {
             return NotFound();
         }
-        var usersId = _context.GroupUser.Where(g => g.GroupsId == id).Select(u => u.UsersId).ToList();
-        
-        var response = new GroupResponseDto {
+        var usersId = _context.GroupUser
+        .Where(g => g.GroupsId == id)
+        .Select(u => u.UsersId)
+        .ToList();
+
+        var response = new GroupResponseDto
+        {
             Id = checkGroup.Id,
             Name = checkGroup.Name,
             UsersId = usersId,

@@ -20,14 +20,15 @@ public class AssignmentsController : ControllerBase
     {
         _context = context;
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<AssignmentsResponseDTO>> CreateAssignment(AssignmentRequestDTO reqDto)
     {
-        var assignmentCheck = await _context.Assignments.FirstOrDefaultAsync(g=> g.Title == reqDto.Title && g.Group.Id == reqDto.GroupId);
+        var assignmentCheck = await _context.Assignments.FirstOrDefaultAsync(g => g.Title == reqDto.Title && g.Group.Id == reqDto.GroupId);
 
-        if(assignmentCheck != null){
-           return Conflict();
+        if (assignmentCheck != null)
+        {
+            return Conflict();
         }
 
         var group = await _context.Groups.FirstOrDefaultAsync(group => group.Id == reqDto.GroupId);
@@ -36,7 +37,7 @@ public class AssignmentsController : ControllerBase
         {
             return NotFound();
         }
-        
+
         var newAssignment = new Assignment()
         {
             Title = reqDto.Title,
@@ -44,7 +45,7 @@ public class AssignmentsController : ControllerBase
             StartDate = reqDto.StartDate,
             Group = group
         };
-        
+
         _context.Add(newAssignment);
         await _context.SaveChangesAsync();
         var response = new AssignmentsResponseDTO()
@@ -59,10 +60,10 @@ public class AssignmentsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("/group/{id}")]
+    [Route("group/{id}")]
     public ActionResult<List<AssignmentsResponseDTO>> GetAssignmentsByGroupId(int id)
     {
-        return  _context.Assignments
+        return _context.Assignments
             .Where(a => a.Group.Id == id)
             .Select(a => new AssignmentsResponseDTO()
             {
@@ -73,7 +74,7 @@ public class AssignmentsController : ControllerBase
                 GroupId = a.Group.Id
             }).ToList();
     }
-    
+
     [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult<Assignment>> GetAssignmentsById(int id)
@@ -88,7 +89,7 @@ public class AssignmentsController : ControllerBase
                 Description = a.Description,
                 GroupId = a.Group.Id
             }).FirstOrDefaultAsync();
-        
+
         if (a == null)
         {
             return NotFound();
@@ -96,4 +97,4 @@ public class AssignmentsController : ControllerBase
 
         return Ok(a);
     }
- }
+}

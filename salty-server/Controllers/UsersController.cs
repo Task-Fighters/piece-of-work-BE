@@ -12,32 +12,35 @@ namespace salty_server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly DbContext _context;
 
-    public UserController(DbContext context)
+    public UsersController(DbContext context)
     {
         _context = context;
     }
+
 
     // GET: User
     [HttpGet]
     public async Task<ActionResult<List<UserResponseDto>>> Index()
     {
-    
+
         var users = await _context.Users.ToListAsync();
-        var userDtoList = users.Select(user =>{ 
+        var userDtoList = users.Select(user =>
+        {
             var groupsId = _context.GroupUser.Where(g => g.UsersId == user.Id).Select(g => g.GroupsId).ToList();
-            
-            return new UserResponseDto {
-            Id = user.Id,
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-            Location = user.Location,
-            Status = user.Status,
-            GroupsId = groupsId
+
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FullName = user.FullName,
+                Role = user.Role,
+                Location = user.Location,
+                Status = user.Status,
+                GroupsId = groupsId
             };
         });
 
@@ -60,8 +63,11 @@ public class UserController : ControllerBase
             return NotFound();
         }
 
-        var groupsId = _context.GroupUser.Where(g => g.UsersId == id).Select(g => g.GroupsId).ToList();
-        
+        var groupsId = _context.GroupUser
+        .Where(g => g.UsersId == id)
+        .Select(g => g.GroupsId).ToList();
+
+
         var userRes = new UserResponseDto()
         {
             Id = user.Id,
@@ -148,7 +154,7 @@ public class UserController : ControllerBase
         return Ok(resDto);
     }
 
-    [HttpPut("/login")]
+    [HttpPut("login")]
     public async Task<ActionResult<User>> Login(LoginDto loginDto)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
@@ -165,7 +171,6 @@ public class UserController : ControllerBase
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
         return Ok(UserFound);
-        // return Ok(loginDto);
     }
 
 
