@@ -20,6 +20,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/Controllers/GroupsController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Controllers/WeatherForecastController.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -89,7 +90,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1681211013606</updated>
-      <workItem from="1681211014840" duration="40533000" />
+      <workItem from="1681211014840" duration="41231000" />
     </task>
     <task id="LOCAL-00001" summary="Azure DB setup and added first table">
       <created>1681311978882</created>
