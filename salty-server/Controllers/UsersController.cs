@@ -24,7 +24,7 @@ public class UsersController : ControllerBase
 
     // GET: User
     [HttpGet]
-    public async Task<ActionResult<List<UserResponseDto>>> Index()
+    public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
     {
 
         var users = await _context.Users.ToListAsync();
@@ -49,7 +49,7 @@ public class UsersController : ControllerBase
 
     // GET: User/Details/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserResponseDto>> Details(int? id)
+    public async Task<ActionResult<UserResponseDto>> GetUserById(int? id)
     {
         if (id == null || _context.Users == null)
         {
@@ -86,7 +86,7 @@ public class UsersController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult<User>> Create(UserDto userDto)
+    public async Task<ActionResult<User>> AddUser(UserDto userDto)
     {
         var checkUser = await _context.Users
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
@@ -155,7 +155,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("login")]
-    public async Task<ActionResult<User>> Login(LoginDto loginDto)
+    public async Task<ActionResult<User>> UserLogin(LoginDto loginDto)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
 
@@ -177,7 +177,7 @@ public class UsersController : ControllerBase
 
     // GET: User/Delete/5
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> DeleteUser(int id)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
