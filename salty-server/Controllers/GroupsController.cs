@@ -22,7 +22,7 @@ public class GroupsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Group>> Create(GroupDto groupDto)
+    public async Task<ActionResult<Group>> CreateGroup(GroupDto groupDto)
     {
         var groupCheck = await _context.Groups.FirstOrDefaultAsync(g => g.Name == groupDto.Name);
 
@@ -41,29 +41,38 @@ public class GroupsController : ControllerBase
         return Ok(newGroup);
     }
 
-    // [HttpGet]
-    // public async Task<ActionResult<List<GroupResponseDto>>> GetAllGroups()
-    // {
-    //     var allGroups = await _context.Groups.ToListAsync();
+    [HttpGet]
+    public async Task<ActionResult<List<GroupResponseDto>>> GetAllGroups()
+    {
+        var allGroups = await _context.Groups.ToListAsync();
 
-    //     if (allGroups == null)
-    //     {
-    //         return NotFound();
-    //     }
+        if (allGroups == null)
+        {
+            return NotFound();
+        }
 
-    //     var response = allGroups.Select(grp =>
-    //     {
-    //         var usersId = _context.GroupUser.Where(g => g.GroupsId == grp.Id).Select(u => u.UsersId).ToList();
-    //         return new GroupResponseDto
-    //         {
-    //             Id = grp.Id,
-    //             Name = grp.Name,
-    //             UsersId = usersId,
-    //             AssignmentsId = new List<int>()
-    //         };
-    //     });
-    //     return Ok(response);
-    // }
+        var response = new List<GroupResponseDto>();
+
+        foreach (var grp in allGroups)
+        {
+            var query =
+            from g in _context.GroupUser where g.GroupsId == grp.Id
+            join user in _context.Users on  g.UsersId equals user.Id
+            select new UserDetail
+            {
+                Id = user.Id,
+                Name = user.FullName
+            };
+            response.Add(new GroupResponseDto
+            {
+                Id = grp.Id,
+                Name = grp.Name,
+                Users = query.ToList(),
+                AssignmentsId = new List<int>()
+            });
+        }
+        return Ok(response);
+    }
 
     [HttpGet]
     [Route("{id}")]
@@ -91,7 +100,7 @@ public class GroupsController : ControllerBase
         {
             Id = checkGroup.Id,
             Name = checkGroup.Name,
-            UsersId = query.ToList(),
+            Users = query.ToList(),
             AssignmentsId = new List<int>()
         };
 
