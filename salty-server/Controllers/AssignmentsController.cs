@@ -76,8 +76,21 @@ public class AssignmentsController : ControllerBase
     }
 
     [HttpGet]
+    public  ActionResult<List<AssignmentsResponseDTO>> GetAllAssignments()
+    {
+        return  _context.Assignments.Select(a => new AssignmentsResponseDTO()
+        {
+            Id = a.Id,
+            StartDate = a.StartDate,
+            Title = a.Title,
+            Description = a.Description,
+            GroupId = a.Group.Id 
+        }).ToList();
+    }
+
+    [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult<Assignment>> GetAssignmentsById(int id)
+    public async Task<ActionResult<AssignmentsResponseDTO>> GetAssignmentsById(int id)
     {
         var a = await _context.Assignments
             .Where(a => a.Id == id)
@@ -97,4 +110,41 @@ public class AssignmentsController : ControllerBase
 
         return Ok(a);
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public async Task<ActionResult<AssignmentsResponseDTO>> UpdateAssignment(int id, [FromBody]AssignmentRequestDTO assignmentRequestDto)
+    {
+        var assignment = await _context.Assignments.FirstOrDefaultAsync(a => a.Id == id);
+        if (assignment == null)
+        {
+            return NotFound();
+        }
+
+        var response = new AssignmentsResponseDTO()
+        {
+            Id = id,
+            Title = assignmentRequestDto.Title,
+            StartDate = assignmentRequestDto.StartDate,
+            Description = assignmentRequestDto.Description,
+            GroupId = assignmentRequestDto.GroupId
+        };
+
+        var group = await _context.Groups.FirstOrDefaultAsync(g => g.Id == assignmentRequestDto.GroupId);
+
+        if (group == null)
+        {
+            return NotFound("New Group not found");
+        }
+
+        assignment.Description = assignmentRequestDto.Description;
+        assignment.Title = assignmentRequestDto.Title;
+        assignment.StartDate = assignmentRequestDto.StartDate;
+        assignment.Group = group;
+        
+        _context.Update(assignment);
+        _context.SaveChangesAsync();
+
+        return Ok(response);
+    }  
 }
