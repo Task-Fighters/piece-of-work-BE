@@ -63,12 +63,21 @@ public class GroupsController : ControllerBase
                 Id = user.Id,
                 Name = user.FullName
             };
+
+            var assignmentDetails = _context.Assignments
+                .Where(a => a.Group.Id == grp.Id)
+                .Select(a => new AssignmentDetails()
+                {
+                    Id = a.Id,
+                    Title = a.Title
+                }).ToList();
+            
             response.Add(new GroupResponseDto
             {
                 Id = grp.Id,
                 Name = grp.Name,
                 Users = query.ToList(),
-                AssignmentsId = new List<int>()
+                AssignmentsId = assignmentDetails
             });
         }
         return Ok(response);
@@ -78,8 +87,6 @@ public class GroupsController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult<GroupResponseDto>> GetGroupById(int id)
     {
-
-
         var checkGroup = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
         if (checkGroup == null)
@@ -96,12 +103,21 @@ public class GroupsController : ControllerBase
             Name = user.FullName
         };
 
+        var assignmentDetails = _context.Assignments
+            .Where(a => a.Group.Id == id)
+            .Select(a => new AssignmentDetails()
+            {
+                Id = a.Id,
+                Title = a.Title
+            })
+            .ToList();
+
         var response = new GroupResponseDto
         {
             Id = checkGroup.Id,
             Name = checkGroup.Name,
             Users = query.ToList(),
-            AssignmentsId = new List<int>()
+            AssignmentsId = assignmentDetails
         };
 
         return Ok(response);
