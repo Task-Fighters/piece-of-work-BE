@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using salty_server.Services.TokenService;
 using salty_server.Models;
 
 namespace salty_server.Controllers;
@@ -16,9 +17,10 @@ public class UsersController : ControllerBase
 {
     private readonly DbContext _context;
 
-    public UsersController(DbContext context)
+    public UsersController(DbContext context, TokenService tokenService)
     {
         _context = context;
+        _tokenService = tokenService;
     }
 
 
@@ -155,7 +157,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("login")]
-    public async Task<ActionResult<User>> UserLogin(LoginDto loginDto)
+    public async Task<ActionResult<UserLoginRes>> UserLogin(LoginDto loginDto)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
 
@@ -168,9 +170,21 @@ public class UsersController : ControllerBase
         UserFound.GoogleId = loginDto.GoogleId;
         UserFound.ImageUrl = loginDto.ImageUrl;
 
+        var accessToken = _tokenService.CreateToken(UserFound);
+
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
-        return Ok(UserFound);
+        var userLoggedin = new UserLoginRes{
+            Id = UserFound.Id,
+            Token = accessToken,
+            Email = UserFound.Email,
+            ImageUrl = UserFound.ImageUrl,
+            FullName = UserFound.FullName,
+            Role = UserFound.Role,
+            Location = UserFound.Location,
+            Status = UserFound.Status
+        };
+        return Ok(userLoggedin);
     }
 
 
