@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiWithAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using salty_server.Services.TokenService;
 using salty_server.Models;
 
 namespace salty_server.Controllers;
@@ -16,6 +17,7 @@ namespace salty_server.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly DbContext _context;
+    private readonly TokenService _tokenService;
 
     public UsersController(DbContext context, TokenService tokenService)
     {
@@ -25,7 +27,7 @@ public class UsersController : ControllerBase
 
 
     // GET: User
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
     {
 
@@ -50,7 +52,7 @@ public class UsersController : ControllerBase
     }
 
     // GET: User/Details/5
-    [HttpGet("{id}")]
+    [HttpGet("{id}"), Authorize]
     public async Task<ActionResult<UserResponseDto>> GetUserById(int? id)
     {
         if (id == null || _context.Users == null)
@@ -87,7 +89,7 @@ public class UsersController : ControllerBase
     }
 
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<ActionResult<User>> AddUser(UserDto userDto)
     {
         var checkUser = await _context.Users
@@ -190,7 +192,7 @@ public class UsersController : ControllerBase
 
 
     // GET: User/Delete/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize]
     public async Task<ActionResult> DeleteUser(int id)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);

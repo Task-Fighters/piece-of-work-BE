@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ public class GroupsController : ControllerBase
         _context = context;
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<ActionResult<Group>> CreateGroup(GroupDto groupDto)
     {
         var groupCheck = await _context.Groups.FirstOrDefaultAsync(g => g.Name == groupDto.Name);
@@ -41,7 +42,7 @@ public class GroupsController : ControllerBase
         return Ok(newGroup);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<ActionResult<List<GroupResponseDto>>> GetAllGroups()
     {
         var allGroups = await _context.Groups.ToListAsync();
@@ -83,7 +84,7 @@ public class GroupsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("{id}")]
     public async Task<ActionResult<GroupResponseDto>> GetGroupById(int id)
     {

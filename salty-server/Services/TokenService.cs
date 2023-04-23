@@ -42,7 +42,6 @@ namespace ApiWithAuth
                     new Claim(JwtRegisteredClaimNames.Sub, "TokenForTheApiWithAuth"),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(ClaimTypes.Name, user.FullName),
                     new Claim(ClaimTypes.Email, user.Email)
                 };
