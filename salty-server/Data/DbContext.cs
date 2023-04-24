@@ -16,6 +16,7 @@ using salty_server.Models;
         public DbSet<Group> Groups { get; set; } = default!;
         public DbSet<Assignment> Assignments { get; set; } = default!;
         public DbSet<GroupUser> GroupUser { get; set; } = default!;
+        public DbSet<Repo> Repos { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
