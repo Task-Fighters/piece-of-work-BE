@@ -122,4 +122,23 @@ public class GroupsController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateGroup(GroupUpdateDto newGroup)
+    {
+        var GroupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == newGroup.Id);
+
+        if (GroupFound == null)
+        {
+            return NotFound("Group not Found");
+        }
+
+        GroupFound.Name = newGroup.Name;
+ 
+
+        _context.Update(GroupFound);
+        await _context.SaveChangesAsync();
+        
+        return Ok();
+    }
 }

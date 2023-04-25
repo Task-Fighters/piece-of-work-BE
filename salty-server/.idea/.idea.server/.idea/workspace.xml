@@ -6,22 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c19d96a-5bd9-4009-8222-9018370a6f3a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Controllers/ReposController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Repo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/RepoRequestDTO.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/RepoResponseDTO.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/GroupUpdateDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/DbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/DbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Migrations/DbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Migrations/DbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/salty-server.csproj.EntityFrameworkCore.targets" beforeDir="false" afterPath="$PROJECT_DIR$/obj/salty-server.csproj.EntityFrameworkCore.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/GroupsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/GroupsController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
