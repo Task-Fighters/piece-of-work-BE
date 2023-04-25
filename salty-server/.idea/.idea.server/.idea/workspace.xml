@@ -6,8 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c19d96a-5bd9-4009-8222-9018370a6f3a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Models/GroupUpdateDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AssignmentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AssignmentsController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/GroupsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/GroupsController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -131,26 +131,5 @@
     <MESSAGE value="new tables and DTOs" />
     <MESSAGE value="groups post and get, and User CRUD" />
     <option name="LAST_COMMIT_MESSAGE" value="groups post and get, and User CRUD" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/AssignmentsController.cs</url>
-          <line>132</line>
-          <properties documentPath="$PROJECT_DIR$/Controllers/AssignmentsController.cs" initialLine="132" containingFunctionPresentation="method 'UpdateAssignment'">
-            <startOffsets>
-              <option value="3776" />
-              <option value="3835" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3873" />
-              <option value="3871" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

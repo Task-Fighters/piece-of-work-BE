@@ -141,4 +141,20 @@ public class GroupsController : ControllerBase
         
         return Ok();
     }
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteGroup(int id)
+    {
+        var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
+
+        if (groupFound == null)
+        {
+            return NotFound("Group not Found");
+        }
+
+        _context.Groups.Remove(groupFound);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
