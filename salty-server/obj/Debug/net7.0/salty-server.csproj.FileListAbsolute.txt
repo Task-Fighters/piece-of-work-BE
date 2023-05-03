@@ -826,3 +826,5 @@
 /Users/tanlui/projects/project-salty/project-salty-backend/salty-server/obj/Debug/net7.0/salty-server.pdb
 /Users/tanlui/projects/project-salty/project-salty-backend/salty-server/obj/Debug/net7.0/salty-server.genruntimeconfig.cache
 /Users/tanlui/projects/project-salty/project-salty-backend/salty-server/obj/Debug/net7.0/ref/salty-server.dll
+/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ public class AssignmentsController : ControllerBase
         _context = context;
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<ActionResult<AssignmentsResponseDTO>> CreateAssignment(AssignmentRequestDTO reqDto)
     {
         var assignmentCheck = await _context.Assignments.FirstOrDefaultAsync(g => g.Title == reqDto.Title && g.Group.Id == reqDto.GroupId);
@@ -59,7 +60,7 @@ public class AssignmentsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("group/{id}")]
     public ActionResult<List<AssignmentsResponseDTO>> GetAssignmentsByGroupId(int id)
     {
@@ -75,7 +76,7 @@ public class AssignmentsController : ControllerBase
             }).ToList();
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public  ActionResult<List<AssignmentsResponseDTO>> GetAllAssignments()
     {
         return  _context.Assignments.Select(a => new AssignmentsResponseDTO()
@@ -88,7 +89,7 @@ public class AssignmentsController : ControllerBase
         }).ToList();
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("{id}")]
     public async Task<ActionResult<AssignmentsResponseDTO>> GetAssignmentsById(int id)
     {
@@ -111,7 +112,7 @@ public class AssignmentsController : ControllerBase
         return Ok(a);
     }
 
-    [HttpPut]
+    [HttpPut, Authorize]
     [Route("{id}")]
     public async Task<ActionResult<AssignmentsResponseDTO>> UpdateAssignment(int id, [FromBody]AssignmentRequestDTO assignmentRequestDto)
     {

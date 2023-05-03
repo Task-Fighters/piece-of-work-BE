@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiWithAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +17,17 @@ namespace salty_server.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly DbContext _context;
+    private readonly TokenService _tokenService;
 
-    public UsersController(DbContext context)
+    public UsersController(DbContext context, TokenService tokenService)
     {
         _context = context;
+        _tokenService = tokenService;
     }
 
 
     // GET: User
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
     {
 
@@ -48,7 +52,7 @@ public class UsersController : ControllerBase
     }
 
     // GET: User/Details/5
-    [HttpGet("{id}")]
+    [HttpGet("{id}"), Authorize]
     public async Task<ActionResult<UserResponseDto>> GetUserById(int? id)
     {
         if (id == null || _context.Users == null)
@@ -85,7 +89,7 @@ public class UsersController : ControllerBase
     }
 
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<ActionResult<User>> AddUser(UserDto userDto)
     {
         var checkUser = await _context.Users
@@ -155,7 +159,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("login")]
-    public async Task<ActionResult<User>> UserLogin(LoginDto loginDto)
+    public async Task<ActionResult<UserLoginRes>> UserLogin(LoginDto loginDto)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
 
@@ -168,15 +172,27 @@ public class UsersController : ControllerBase
         UserFound.GoogleId = loginDto.GoogleId;
         UserFound.ImageUrl = loginDto.ImageUrl;
 
+        var accessToken = _tokenService.CreateToken(UserFound);
+
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
-        return Ok(UserFound);
+        var userLoggedin = new UserLoginRes{
+            Id = UserFound.Id,
+            Token = accessToken,
+            Email = UserFound.Email,
+            ImageUrl = UserFound.ImageUrl,
+            FullName = UserFound.FullName,
+            Role = UserFound.Role,
+            Location = UserFound.Location,
+            Status = UserFound.Status
+        };
+        return Ok(userLoggedin);
     }
 
 
 
     // GET: User/Delete/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize]
     public async Task<ActionResult> DeleteUser(int id)
     {
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
