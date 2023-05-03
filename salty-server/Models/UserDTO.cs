@@ -12,5 +12,5 @@ public class UserDto
     
     public string Status { get; set; }
     
-    public int GroupId { get; set; }
+    public List<int>? GroupsId { get; set; }
 }

@@ -30,7 +30,6 @@ public class UsersController : ControllerBase
     [HttpGet, Authorize]
     public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
     {
-
         var users = await _context.Users.ToListAsync();
         var userDtoList = users.Select(user =>
         {
@@ -68,8 +67,8 @@ public class UsersController : ControllerBase
         }
 
         var groupsId = _context.GroupUser
-        .Where(g => g.UsersId == id)
-        .Select(g => g.GroupsId).ToList();
+            .Where(g => g.UsersId == id)
+            .Select(g => g.GroupsId).ToList();
 
 
         var userRes = new UserResponseDto()
@@ -94,63 +93,49 @@ public class UsersController : ControllerBase
     {
         var checkUser = await _context.Users
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
-
-        var checkGroup = await _context.Groups.FirstOrDefaultAsync(group => group.Id == userDto.GroupId);
-
         if (checkUser != null)
         {
-            return Conflict();
+            return Conflict("user email already exist in the Database");
         }
 
         User newUser;
         UserResponseDto resDto;
-
-        if (checkGroup != null)
+        var allGroupsFound = true;
+        var groups = userDto.GroupsId.Select(id =>
         {
-            ICollection<Group> groups = new Collection<Group>();
-            groups.Add(checkGroup);
-            var groupsId = groups.Select(r => r.Id).ToList();
-            newUser = new User
+            var group = _context.Groups.FirstOrDefault(g => g.Id == id);
+            if (group == null)
             {
-                Email = userDto.Email,
-                FullName = userDto.FullName,
-                Role = userDto.Role,
-                Location = userDto.Location,
-                Status = userDto.Status,
-                Groups = groups
-            };
+                allGroupsFound = false;
+            }
 
-            resDto = new UserResponseDto
-            {
-                Email = userDto.Email,
-                FullName = userDto.FullName,
-                Role = userDto.Role,
-                Location = userDto.Location,
-                Status = userDto.Status,
-                GroupsId = groupsId
-            };
-        }
-        else
+            return group;
+        }).ToList();
+
+        if (!allGroupsFound)
         {
-            newUser = new User
-            {
-                Email = userDto.Email,
-                FullName = userDto.FullName,
-                Role = userDto.Role,
-                Location = userDto.Location,
-                Status = userDto.Status
-            };
-
-            resDto = new UserResponseDto
-            {
-                Email = userDto.Email,
-                FullName = userDto.FullName,
-                Role = userDto.Role,
-                Location = userDto.Location,
-                Status = userDto.Status,
-                GroupsId = new List<int>()
-            };
+            return NotFound("One or more of the groups provided does not exist yet");
         }
+        newUser = new User
+        {
+            Email = userDto.Email,
+            FullName = userDto.FullName,
+            Role = userDto.Role,
+            Location = userDto.Location,
+            Status = userDto.Status,
+            Groups = groups
+        };
+
+        resDto = new UserResponseDto
+        {
+            Email = userDto.Email,
+            FullName = userDto.FullName,
+            Role = userDto.Role,
+            Location = userDto.Location,
+            Status = userDto.Status,
+            GroupsId = userDto.GroupsId
+        };
+
 
         _context.Add(newUser);
         await _context.SaveChangesAsync();
@@ -176,7 +161,8 @@ public class UsersController : ControllerBase
 
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
-        var userLoggedin = new UserLoginRes{
+        var userLoggedin = new UserLoginRes
+        {
             Id = UserFound.Id,
             Token = accessToken,
             Email = UserFound.Email,
@@ -188,7 +174,6 @@ public class UsersController : ControllerBase
         };
         return Ok(userLoggedin);
     }
-
 
 
     // GET: User/Delete/5
