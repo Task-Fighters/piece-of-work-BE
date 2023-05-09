@@ -22,6 +22,18 @@ namespace ApiWithAuth
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
         }
+        
+        public string CreateRefreshToken(User user)
+        {
+            var expiration = DateTime.UtcNow.AddMinutes(60);
+            var token = CreateJwtToken(
+                CreateClaims(user),
+                CreateSigningCredentials(),
+                expiration
+            );
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
+        }
 
         private JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials,
             DateTime expiration) =>

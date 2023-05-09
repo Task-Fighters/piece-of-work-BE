@@ -158,6 +158,7 @@ public class UsersController : ControllerBase
         UserFound.ImageUrl = loginDto.ImageUrl;
 
         var accessToken = _tokenService.CreateToken(UserFound);
+        var refreshToken = _tokenService.CreateRefreshToken(UserFound);
 
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
@@ -165,6 +166,7 @@ public class UsersController : ControllerBase
         {
             Id = UserFound.Id,
             Token = accessToken,
+            RefreshToken = refreshToken,
             Email = UserFound.Email,
             ImageUrl = UserFound.ImageUrl,
             FullName = UserFound.FullName,
@@ -192,4 +194,17 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet, Authorize]
+    [Route("refreshToken")]
+    public async Task<ActionResult<string>> GetRefreshToken(int id)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null)
+        {
+            return NotFound("incorrect user Id provided");
+        }
+        return _tokenService.CreateToken(user);
+    }
+
 }
