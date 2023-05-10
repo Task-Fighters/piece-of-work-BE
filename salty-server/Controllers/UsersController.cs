@@ -179,6 +179,44 @@ public class UsersController : ControllerBase
     }
 
 
+    [HttpPut("update/{id}"), Authorize]
+    public async Task<ActionResult<UserResponseDto>> UpdateUser(int id, [FromBody]UserDto userDto)
+    {
+        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+
+        if (UserFound == null)
+        {
+            return NotFound();
+        }
+
+
+        UserFound.Email = userDto.Email;
+        UserFound.Location = userDto.Location;
+        UserFound.ImageUrl = userDto.ImageUrl;
+        UserFound.FullName = userDto.FullName;
+        UserFound.Role = userDto.Role;
+        UserFound.Status = userDto.Status;
+
+        _context.Update(UserFound);
+        await _context.SaveChangesAsync();
+
+        var userResponse = new UserResponseDto
+        {
+            Id = UserFound.Id,
+            GoogleId = UserFound.GoogleId,
+            Email = UserFound.Email,
+            FullName = UserFound.FullName,
+            Role = UserFound.Role,
+            Status = UserFound.Status,
+            Location = UserFound.Location,
+            ImageUrl = UserFound.ImageUrl
+
+        };
+
+        return Ok(userResponse);
+    }
+
+
     // GET: User/Delete/5
     [HttpDelete("{id}"), Authorize]
     public async Task<ActionResult> DeleteUser(int id)
