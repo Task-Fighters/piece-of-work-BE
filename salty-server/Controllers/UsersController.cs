@@ -156,6 +156,7 @@ public class UsersController : ControllerBase
         UserFound.Email = loginDto.Email;
         UserFound.GoogleId = loginDto.GoogleId;
         UserFound.ImageUrl = loginDto.ImageUrl;
+        UserFound.FullName = loginDto.FullName;
 
         var accessToken = _tokenService.CreateToken(UserFound);
         var refreshToken = _tokenService.CreateRefreshToken(UserFound);

@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{3DFC89A1-8C71-48D6-96FA-40D198458AE3}|https">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/UsersController.cs">
+    <Files>
+      <File FileName="Controllers/AssignmentsController.cs" Line="47" Column="26" />
+      <File FileName="Program.cs" />
+      <File FileName="Controllers/GroupsController.cs" Line="156" Column="36" />
+      <File FileName="Controllers/UsersController.cs" Line="113" Column="10" />
+      <File FileName="Models/User.cs" Line="28" Column="5" />
+      <File FileName="Models/Group.cs" Line="15" Column="43" />
+      <File FileName="Services/TokenService.cs" Line="26" Column="41" />
+      <File FileName="Models/Repo.cs" Line="9" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="salty-server" expanded="True">
+            <Node name="salty-server" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Services" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.salty-server PreferredExecutionTarget="/Applications/Google Chrome.app" />
+</Properties>
