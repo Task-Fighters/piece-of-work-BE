@@ -165,7 +165,7 @@ public class GroupsController : ControllerBase
 
     [HttpPost, Authorize]
     [Route("AddUser/{id}")]
-    public async Task<ActionResult>AddUser(int id, [FromBody]int userId)
+    public async Task<ActionResult>AddUser(int id, int userId)
     {
         var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
