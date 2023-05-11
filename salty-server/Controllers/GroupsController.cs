@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -124,6 +126,7 @@ public class GroupsController : ControllerBase
         return Ok(response);
     }
 
+
     [HttpPut]
     public async Task<ActionResult> UpdateGroup(GroupUpdateDto newGroup)
     {
@@ -142,7 +145,8 @@ public class GroupsController : ControllerBase
         
         return Ok();
     }
-    
+
+    //need cascade delete
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteGroup(int id)
     {
@@ -157,5 +161,36 @@ public class GroupsController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    [HttpPost]
+    [Route("AddUser/{id}")]
+    public async Task<ActionResult>AddUser(int id, [FromBody]int userId)
+    {
+        var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
+
+        if (groupFound == null)
+        {
+            return NotFound("Group not Found");
+        }
+
+        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        if (UserFound == null)
+        {
+            return NotFound("User not found");
+        }
+
+        var groupUser = new GroupUser
+        {
+            UsersId = userId,
+            GroupsId = id,
+            User = UserFound,
+            Group = groupFound
+        };
+
+        _context.Add(groupUser);
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 }
