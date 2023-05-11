@@ -163,7 +163,7 @@ public class GroupsController : ControllerBase
         return NoContent();
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     [Route("AddUser/{id}")]
     public async Task<ActionResult>AddUser(int id, [FromBody]int userId)
     {
@@ -192,5 +192,36 @@ public class GroupsController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok();
+    }
+
+    [HttpDelete, Authorize]
+    [Route("DeleteUser/{id}")]
+    public async Task<ActionResult>DeleteUser(int id, int userId)
+    {
+        var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
+
+        if (groupFound == null)
+        {
+            return NotFound("Group not Found");
+        }
+
+        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        if (UserFound == null)
+        {
+            return NotFound("User not found");
+        }
+
+        var groupUser = new GroupUser
+        {
+            UsersId = userId,
+            GroupsId = id,
+            User = UserFound,
+            Group = groupFound
+        };
+
+        _context.GroupUser.Remove(groupUser);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }
