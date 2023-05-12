@@ -195,8 +195,8 @@ public class GroupsController : ControllerBase
     }
 
     [HttpDelete, Authorize]
-    [Route("DeleteUser/{id}")]
-    public async Task<ActionResult>DeleteUser(int id, int userId)
+    [Route("RemoveUser/{id}")]
+    public async Task<ActionResult> RemoveUser(int id, int userId)
     {
         var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
