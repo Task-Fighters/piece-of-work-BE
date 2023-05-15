@@ -209,8 +209,8 @@ public class UsersController : ControllerBase
             Role = UserFound.Role,
             Status = UserFound.Status,
             Location = UserFound.Location,
-            ImageUrl = UserFound.ImageUrl
-
+            ImageUrl = UserFound.ImageUrl,
+            GroupsId = userDto.GroupsId
         };
 
         return Ok(userResponse);
