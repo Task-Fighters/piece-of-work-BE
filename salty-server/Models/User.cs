@@ -23,6 +23,8 @@ public class User
     public string? ImageUrl { get; set; }
     
     public string Status { get; set; }
+
+    public string? Bootcamp { get; set; }
     
     public virtual ICollection<Group>? Groups { get; set; }
     

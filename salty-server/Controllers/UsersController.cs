@@ -43,6 +43,7 @@ public class UsersController : ControllerBase
                 Role = user.Role,
                 Location = user.Location,
                 Status = user.Status,
+                Bootcamp = user.Bootcamp,
                 GroupsId = groupsId
             };
         });
@@ -81,6 +82,7 @@ public class UsersController : ControllerBase
             Location = user.Location,
             Status = user.Status,
             ImageUrl = user.ImageUrl,
+            Bootcamp = user.Bootcamp,
             GroupsId = groupsId
         };
 
@@ -123,6 +125,7 @@ public class UsersController : ControllerBase
             Role = userDto.Role,
             Location = userDto.Location,
             Status = userDto.Status,
+            Bootcamp = userDto.Bootcamp,
             Groups = groups
         };
 
@@ -133,6 +136,7 @@ public class UsersController : ControllerBase
             Role = userDto.Role,
             Location = userDto.Location,
             Status = userDto.Status,
+            Bootcamp = userDto.Bootcamp,
             GroupsId = userDto.GroupsId
         };
 
@@ -173,7 +177,8 @@ public class UsersController : ControllerBase
             FullName = UserFound.FullName,
             Role = UserFound.Role,
             Location = UserFound.Location,
-            Status = UserFound.Status
+            Status = UserFound.Status,
+            Bootcamp = UserFound.Bootcamp
         };
         return Ok(userLoggedin);
     }
@@ -196,6 +201,7 @@ public class UsersController : ControllerBase
         UserFound.FullName = userDto.FullName;
         UserFound.Role = userDto.Role;
         UserFound.Status = userDto.Status;
+        UserFound.Bootcamp = userDto.Bootcamp;
 
         _context.Update(UserFound);
         await _context.SaveChangesAsync();
@@ -210,6 +216,7 @@ public class UsersController : ControllerBase
             Status = UserFound.Status,
             Location = UserFound.Location,
             ImageUrl = UserFound.ImageUrl,
+            Bootcamp = UserFound.Bootcamp,
             GroupsId = userDto.GroupsId
         };
 
@@ -245,5 +252,4 @@ public class UsersController : ControllerBase
         }
         return _tokenService.CreateToken(user);
     }
-
 }

@@ -18,4 +18,6 @@ public class UserLoginRes
     public string? ImageUrl { get; set; }
 
     public string Status { get; set; }
+
+    public string? Bootcamp { get; set; }
 }

@@ -18,5 +18,7 @@ public class UserResponseDto
 
     public string Status { get; set; }
 
+    public string? Bootcamp { get; set; }
+
     public List<int>? GroupsId { get; set; }
 }
