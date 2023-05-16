@@ -61,6 +61,7 @@ builder.Services
         };
     });
 builder.Services.AddScoped<TokenService, TokenService>();
+builder.Services.AddScoped<AuthService, AuthService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ApiWithAuth;
 using Microsoft.AspNetCore.Authorization;
@@ -18,14 +19,15 @@ public class UsersController : ControllerBase
 {
     private readonly DbContext _context;
     private readonly TokenService _tokenService;
+    private readonly AuthService _authService;
 
-    public UsersController(DbContext context, TokenService tokenService)
+    public UsersController(DbContext context, TokenService tokenService, AuthService authService)
     {
         _context = context;
         _tokenService = tokenService;
+        _authService = authService;
     }
-
-
+    
     // GET: User
     [HttpGet, Authorize]
     public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
@@ -93,6 +95,13 @@ public class UsersController : ControllerBase
     [HttpPost, Authorize]
     public async Task<ActionResult<User>> AddUser(UserDto userDto)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
+        
         var checkUser = await _context.Users
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
         if (checkUser != null)
@@ -187,6 +196,12 @@ public class UsersController : ControllerBase
     [HttpPut("update/{id}"), Authorize]
     public async Task<ActionResult<UserResponseDto>> UpdateUser(int id, [FromBody]UserDto userDto)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
         if (UserFound == null)
@@ -228,6 +243,12 @@ public class UsersController : ControllerBase
     [HttpDelete("{id}"), Authorize]
     public async Task<ActionResult> DeleteUser(int id)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
         if (UserFound == null)
