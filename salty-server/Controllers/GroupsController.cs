@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiWithAuth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,15 +19,23 @@ public class GroupsController : ControllerBase
 {
 
     private readonly DbContext _context;
+    private readonly AuthService _authService;
 
-    public GroupsController(DbContext context)
+    public GroupsController(DbContext context, AuthService authService)
     {
         _context = context;
+        _authService = authService;
     }
 
     [HttpPost, Authorize]
     public async Task<ActionResult<Group>> CreateGroup(GroupDto groupDto)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var groupCheck = await _context.Groups.FirstOrDefaultAsync(g => g.Name == groupDto.Name);
 
         if (groupCheck != null)
@@ -130,6 +139,12 @@ public class GroupsController : ControllerBase
     [HttpPut]
     public async Task<ActionResult> UpdateGroup(GroupUpdateDto newGroup)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var GroupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == newGroup.Id);
 
         if (GroupFound == null)
@@ -150,6 +165,12 @@ public class GroupsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteGroup(int id)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
         if (groupFound == null)
@@ -167,6 +188,12 @@ public class GroupsController : ControllerBase
     [Route("AddUser/{id}")]
     public async Task<ActionResult>AddUser(int id, int userId)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
         if (groupFound == null)
@@ -198,6 +225,12 @@ public class GroupsController : ControllerBase
     [Route("RemoveUser/{id}")]
     public async Task<ActionResult> RemoveUser(int id, int userId)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var groupFound = await _context.Groups.FirstOrDefaultAsync(group => group.Id == id);
 
         if (groupFound == null)

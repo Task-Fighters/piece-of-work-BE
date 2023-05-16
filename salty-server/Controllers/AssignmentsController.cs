@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiWithAuth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,15 +17,23 @@ namespace salty_server.Controllers;
 public class AssignmentsController : ControllerBase
 {
     private readonly DbContext _context;
+    private readonly AuthService _authService;
 
-    public AssignmentsController(DbContext context)
+    public AssignmentsController(DbContext context, AuthService authService)
     {
         _context = context;
+        _authService = authService;
     }
 
     [HttpPost, Authorize]
     public async Task<ActionResult<AssignmentsResponseDTO>> CreateAssignment(AssignmentRequestDTO reqDto)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var assignmentCheck = await _context.Assignments.FirstOrDefaultAsync(g => g.Title == reqDto.Title && g.Group.Id == reqDto.GroupId);
 
         if (assignmentCheck != null)
@@ -116,6 +125,12 @@ public class AssignmentsController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult<AssignmentsResponseDTO>> UpdateAssignment(int id, [FromBody]AssignmentRequestDTO assignmentRequestDto)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var assignment = await _context.Assignments.FirstOrDefaultAsync(a => a.Id == id);
         if (assignment == null)
         {
@@ -152,6 +167,12 @@ public class AssignmentsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteAssignment(int id)
     {
+        var userRole =  await _authService.getUserRole(HttpContext.User);
+
+        if (userRole.ToLower() != "admin")
+        {
+            return Unauthorized("You are not an admin!!!!! >:(");
+        }
         var assignmentFound = await _context.Assignments.FirstOrDefaultAsync(a => a.Id == id);
 
         if (assignmentFound == null)
