@@ -28,7 +28,7 @@ public class GroupsController : ControllerBase
     }
 
     [HttpPost, Authorize]
-    public async Task<ActionResult<Group>> CreateGroup(GroupDto groupDto)
+    public async Task<ActionResult<GroupResponseDto>> CreateGroup(GroupDto groupDto)
     {
         var userRole =  await _authService.getUserRole(HttpContext.User);
 
@@ -42,15 +42,45 @@ public class GroupsController : ControllerBase
         {
             return Conflict();
         }
-
+        
         var newGroup = new Group
         {
             Name = groupDto.Name
         };
 
+        var userDetailsList = new List<UserDetail>();
+        
         _context.Add(newGroup);
+
+        foreach (var id in groupDto.UserIds)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var groupUser = new GroupUser()
+            {
+                UsersId = id,
+                User = user,
+                GroupsId = newGroup.Id,
+                Group = newGroup
+            };
+            var userDetail = new UserDetail()
+            {
+                Id = id,
+                Name = user.FullName
+            };
+            userDetailsList.Add(userDetail);
+            
+            _context.Add(groupUser);
+        }
+        
         await _context.SaveChangesAsync();
-        return Ok(newGroup);
+        var response = new GroupResponseDto()
+        {
+            Id = newGroup.Id,
+            Name = newGroup.Name,
+            Users = userDetailsList,
+            AssignmentsId = new List<AssignmentDetails>()
+        };
+        return Ok(response);
     }
 
     [HttpGet, Authorize]
