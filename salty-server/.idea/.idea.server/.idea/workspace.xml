@@ -8,16 +8,10 @@
     <list default="true" id="d483b56b-42b3-4bc0-800a-c79cad37903a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/GroupsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/GroupsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/Microsoft.AspNetCore.JsonPatch.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/salty-server.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.pdb" afterDir="false" />
     </list>

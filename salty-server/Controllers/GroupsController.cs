@@ -215,7 +215,7 @@ public class GroupsController : ControllerBase
     }
 
     [HttpPost, Authorize]
-    [Route("AddUser/{id}")]
+    [Route("{id}/AddUser")]
     public async Task<ActionResult>AddUser(int id, List<int> usersId)
     {
         var userRole =  await _authService.getUserRole(HttpContext.User);
@@ -247,7 +247,13 @@ public class GroupsController : ControllerBase
                 Group = groupFound
             };
 
-            _context.Add(groupUser);
+            var groupUserExist = await _context.GroupUser.FirstOrDefaultAsync(gUser =>
+                gUser.UsersId == groupUser.UsersId && gUser.GroupsId == groupUser.GroupsId);
+
+            if (groupUserExist == null)
+            {
+                _context.Add(groupUser);
+            }
         }
         
         await _context.SaveChangesAsync();
@@ -256,7 +262,7 @@ public class GroupsController : ControllerBase
     }
 
     [HttpDelete, Authorize]
-    [Route("RemoveUser/{id}")]
+    [Route("{id}/RemoveUser")]
     public async Task<ActionResult> RemoveUser(int id, List<int> usersId)
     {
         var userRole =  await _authService.getUserRole(HttpContext.User);
@@ -279,16 +285,14 @@ public class GroupsController : ControllerBase
             {
                 return NotFound("User not found");
             }
+            
+            var groupUserExist = await _context.GroupUser.FirstOrDefaultAsync(gUser =>
+                gUser.UsersId == userId && gUser.GroupsId == id);
 
-            var groupUser = new GroupUser
+            if (groupUserExist != null)
             {
-                UsersId = userId,
-                GroupsId = id,
-                User = UserFound,
-                Group = groupFound
-            };
-
-            _context.GroupUser.Remove(groupUser);
+                _context.Remove(groupUserExist);
+            }
         }
         
         await _context.SaveChangesAsync();
