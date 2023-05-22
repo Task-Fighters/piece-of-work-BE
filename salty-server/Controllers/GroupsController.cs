@@ -216,7 +216,7 @@ public class GroupsController : ControllerBase
 
     [HttpPost, Authorize]
     [Route("AddUser/{id}")]
-    public async Task<ActionResult>AddUser(int id, int userId)
+    public async Task<ActionResult>AddUser(int id, List<int> usersId)
     {
         var userRole =  await _authService.getUserRole(HttpContext.User);
 
@@ -230,22 +230,26 @@ public class GroupsController : ControllerBase
         {
             return NotFound("Group not Found");
         }
-
-        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
-        if (UserFound == null)
+        
+        foreach (var userId in usersId)
         {
-            return NotFound("User not found");
+            var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+            if (UserFound == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var groupUser = new GroupUser
+            {
+                UsersId = userId,
+                GroupsId = id,
+                User = UserFound,
+                Group = groupFound
+            };
+
+            _context.Add(groupUser);
         }
-
-        var groupUser = new GroupUser
-        {
-            UsersId = userId,
-            GroupsId = id,
-            User = UserFound,
-            Group = groupFound
-        };
-
-        _context.Add(groupUser);
+        
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -253,7 +257,7 @@ public class GroupsController : ControllerBase
 
     [HttpDelete, Authorize]
     [Route("RemoveUser/{id}")]
-    public async Task<ActionResult> RemoveUser(int id, int userId)
+    public async Task<ActionResult> RemoveUser(int id, List<int> usersId)
     {
         var userRole =  await _authService.getUserRole(HttpContext.User);
 
@@ -268,21 +272,25 @@ public class GroupsController : ControllerBase
             return NotFound("Group not Found");
         }
 
-        var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
-        if (UserFound == null)
+        foreach (var userId in usersId)
         {
-            return NotFound("User not found");
+            var UserFound = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+            if (UserFound == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var groupUser = new GroupUser
+            {
+                UsersId = userId,
+                GroupsId = id,
+                User = UserFound,
+                Group = groupFound
+            };
+
+            _context.GroupUser.Remove(groupUser);
         }
-
-        var groupUser = new GroupUser
-        {
-            UsersId = userId,
-            GroupsId = id,
-            User = UserFound,
-            Group = groupFound
-        };
-
-        _context.GroupUser.Remove(groupUser);
+        
         await _context.SaveChangesAsync();
 
         return NoContent();

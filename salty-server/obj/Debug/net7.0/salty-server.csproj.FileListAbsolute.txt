@@ -830,6 +830,3 @@
 /Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/tanlui/projects/project-salty/project-salty-backend/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/tanlui/projects/project-salty/project-salty-backend/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.JsonPatch.dll
-/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
-/Users/salt-dev/Desktop/Salt/project-salty/server/salty-server/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll
