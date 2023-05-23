@@ -1,3 +1,5 @@
+using ApiWithAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +11,15 @@ namespace salty_server.Controllers;
 public class ReposController : ControllerBase
 {
     private readonly DbContext _context;
+    private readonly AuthService _authService;
 
-    public ReposController(DbContext context)
+    public ReposController(DbContext context, AuthService authService)
     {
         _context = context;
+        _authService = authService;
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<ActionResult<RepoResponseDTO>> CreateRepo(RepoRequestDTO reqDto)
     {
         var repoCheck = await _context.Repos.FirstOrDefaultAsync(r => r.Url == reqDto.Url && r.Assignment.Id == reqDto.AssignmentId);
@@ -51,7 +55,7 @@ public class ReposController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("Assignment/{id}")]
     public  ActionResult<List<RepoResponseDTO>> GetReposForAssignment(int id)
     {
@@ -65,7 +69,7 @@ public class ReposController : ControllerBase
             }).ToList();
     }
     
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("User/{id}")]
     public  ActionResult<List<RepoResponseDTO>> GetReposForUser(int id)
     {
@@ -77,5 +81,21 @@ public class ReposController : ControllerBase
                 UserId = id,
                 AssignmentId = r.Assignment.Id
             }).ToList();
+    }
+    
+    [HttpDelete("{id}"), Authorize]
+    public async Task<ActionResult> DeleteRepo(int id)
+    {
+        var RepoFound = await _context.Repos.FirstOrDefaultAsync(repo => repo.Id == id);
+
+        if (RepoFound == null)
+        {
+            return NotFound();
+        }
+
+        _context.Repos.Remove(RepoFound);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }

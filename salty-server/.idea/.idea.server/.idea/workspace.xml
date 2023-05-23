@@ -5,14 +5,7 @@
     <projectFile profileName="https">salty-server.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d483b56b-42b3-4bc0-800a-c79cad37903a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/salty-server.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/salty-server.pdb" afterDir="false" />
-    </list>
+    <list default="true" id="d483b56b-42b3-4bc0-800a-c79cad37903a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -96,7 +89,7 @@
       <updated>1681211013606</updated>
       <workItem from="1681211014840" duration="43560000" />
       <workItem from="1684226801433" duration="5732000" />
-      <workItem from="1684840333082" duration="2040000" />
+      <workItem from="1684840333082" duration="2857000" />
     </task>
     <task id="LOCAL-00001" summary="Azure DB setup and added first table">
       <created>1681311978882</created>
