@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using NuGet.Protocol;
 using salty_server.Models;
 
 namespace salty_server.Controllers;
@@ -165,7 +167,23 @@ public class UsersController : ControllerBase
         {
             return NotFound();
         }
+        
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {loginDto.GoogleId}");
+        client.DefaultRequestHeaders.Add("accept", "application/json");
 
+        var url = $"https://www.googleapis.com/oauth2/v1/userinfo?access_token={loginDto.GoogleId}";
+
+        var response = await client.GetAsync(url);
+        var responseBody =  await response.Content.ReadAsStringAsync();
+        var userJsonObject = JObject.Parse(responseBody);
+        var email = (string)userJsonObject["email"];
+
+        if (email != loginDto.Email)
+        {
+            return Unauthorized("Google token doesn't match the email provided");
+        }
+        
         UserFound.Email = loginDto.Email;
         UserFound.GoogleId = loginDto.GoogleId;
         UserFound.ImageUrl = loginDto.ImageUrl;
