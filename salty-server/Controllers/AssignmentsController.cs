@@ -84,6 +84,37 @@ public class AssignmentsController : ControllerBase
                 GroupId = a.Group.Id
             }).ToList();
     }
+    
+    [HttpGet, Authorize]
+    [Route("user/{id}")]
+    public async Task<ActionResult<List<AssignmentsResponseDTO>>> GetAssignmentsByUserId(int id)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        if (user == null)
+        {
+            return NotFound("User with provided Id does not exist");
+        }
+
+        var groups = user.GroupUsers.Select(gu => gu.GroupsId);
+
+        var assignments = new List<AssignmentsResponseDTO>();
+        foreach (var groupId in groups)
+        {
+            var currentAssignments = _context.Assignments
+                .Where(a => a.Group.Id == groupId)
+                .Select(a => new AssignmentsResponseDTO()
+                {
+                    Id = a.Id,
+                    StartDate = a.StartDate,
+                    Title = a.Title,
+                    Description = a.Description,
+                    GroupId = a.Group.Id
+                }).ToList();
+            assignments.AddRange(currentAssignments);
+        }
+
+        return assignments;
+    }
 
     [HttpGet, Authorize]
     public  ActionResult<List<AssignmentsResponseDTO>> GetAllAssignments()
