@@ -84,7 +84,7 @@ public class AssignmentsController : ControllerBase
                 GroupId = a.Group.Id
             }).ToList();
     }
-    //test
+    //testing
     [HttpGet, Authorize]
     [Route("user/{id}")]
     public async Task<ActionResult<List<AssignmentsResponseDTO>>> GetAssignmentsByUserId(int id)
