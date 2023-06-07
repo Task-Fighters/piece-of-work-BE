@@ -95,12 +95,21 @@ public class AssignmentsController : ControllerBase
             return NotFound("User with provided Id does not exist");
         }
 
-        var groups = user.GroupUsers.Select(gu => gu.GroupsId);
+        var groupsId = _context.GroupUser.Where(g => g.UsersId == user.Id).Select(g => g.GroupsId).ToList();
 
         var assignments = new List<AssignmentsResponseDTO>();
-        foreach (var groupId in groups)
+        foreach (var groupId in groupsId)
         {
-            var currentAssignments = GetAssignmentsByGroupId(groupId);
+            var currentAssignments = _context.Assignments
+            .Where(a => a.Group.Id == groupId)
+            .Select(a => new AssignmentsResponseDTO()
+            {
+                Id = a.Id,
+                StartDate = a.StartDate,
+                Title = a.Title,
+                Description = a.Description,
+                GroupId = a.Group.Id
+            }).ToList();
             assignments.AddRange(currentAssignments);
         }
 
