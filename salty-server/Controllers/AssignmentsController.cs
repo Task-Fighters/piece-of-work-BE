@@ -100,16 +100,7 @@ public class AssignmentsController : ControllerBase
         var assignments = new List<AssignmentsResponseDTO>();
         foreach (var groupId in groups)
         {
-            var currentAssignments = _context.Assignments
-                .Where(a => a.Group.Id == groupId)
-                .Select(a => new AssignmentsResponseDTO()
-                {
-                    Id = a.Id,
-                    StartDate = a.StartDate,
-                    Title = a.Title,
-                    Description = a.Description,
-                    GroupId = a.Group.Id
-                }).ToList();
+            var currentAssignments = GetAssignmentsByGroupId(groupId);
             assignments.AddRange(currentAssignments);
         }
 
