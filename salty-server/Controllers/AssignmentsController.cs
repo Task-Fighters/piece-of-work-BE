@@ -190,7 +190,7 @@ public class AssignmentsController : ControllerBase
         assignment.Group = group;
         
         _context.Update(assignment);
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return Ok(response);
     }  
