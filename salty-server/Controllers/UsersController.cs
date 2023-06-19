@@ -94,22 +94,16 @@ public class UsersController : ControllerBase
     }
 
 
-    [HttpPost, Authorize]
+    [HttpPost]
     public async Task<ActionResult<User>> AddUser(UserDto userDto)
-    {
-        var userRole =  await _authService.getUserRole(HttpContext.User);
-
-        if (userRole.ToLower() != "admin")
-        {
-            return Unauthorized("You are not an admin!!!!! >:(");
-        }
-        
+    {   
         var checkUser = await _context.Users
             .FirstOrDefaultAsync(m => m.Email == userDto.Email);
         if (checkUser != null)
         {
             return Conflict("user email already exist in the Database");
         }
+
 
         User newUser;
         UserResponseDto resDto;
