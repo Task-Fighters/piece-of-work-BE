@@ -159,7 +159,31 @@ public class UsersController : ControllerBase
 
         if (UserFound == null)
         {
-            return NotFound();
+            var newUser = new User(){
+                Email = loginDto.Email,
+                FullName = loginDto.FullName,
+                Role = "admin",
+                Location = "universe",
+                Status = "active",
+                Bootcamp = "instructor group",
+                Groups = new List<Group>()
+            };
+            var resDto = new UserLoginRes(){
+                Email = loginDto.Email,
+                FullName = loginDto.FullName,
+                Role = "admin",
+                Location = "universe",
+                Status = "active",
+                Bootcamp = "instructor group",
+            };
+            _context.Add(newUser);
+            await _context.SaveChangesAsync();
+            var newAccessToken = _tokenService.CreateToken(newUser);
+            var newRefreshToken = _tokenService.CreateRefreshToken(newUser);
+            resDto.Id = newUser.Id;
+            resDto.Token = newAccessToken;
+            resDto.RefreshToken = newRefreshToken;
+            return Ok(resDto);
         }
         
         var client = new HttpClient();
